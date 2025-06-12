@@ -5,10 +5,10 @@
         struct Student
         {
             public string name;
-            public int ID;
+            public string ID;
             public string form;
 
-            public Student(string namegiven, int IDgiven, string formgiven) 
+            public Student(string namegiven, string IDgiven, string formgiven) 
             {
                 name = namegiven;
                 ID = IDgiven;
@@ -20,61 +20,70 @@
 
         static void Main(string[] args)
         {
-            Console.WriteLine("What is the maximum number of students you wish to hold in the array?");
-            int MAX_STUDENTS = Convert.ToInt32(Console.ReadLine());
-            Student[] students = new Student[MAX_STUDENTS];
+            const int Max_Student = 4;
+            Student[] students = new Student[Max_Student];
             int studentCount = 0;
-            Console.WriteLine("How many subjects?");
-            int maxSubjects = Convert.ToInt32(Console.ReadLine());
-            string[] subjects = new string[maxSubjects];
-            for (int i = 0; i < maxSubjects; i++)
+
+            string[] subjects = { "Geography", "Computer science", "Maths" };
+            int maxSubjects = subjects.Length;
+
+            int[,] grades = new int [Max_Student, maxSubjects];
+
+            //Menu
+
+            bool keepgoing = true;
+            int choice = 0;
+
+            while (keepgoing)
             {
-                Console.WriteLine("Name a subject the student takes");
-                subjects[i] = Console.ReadLine();
-            }
-            int[,] grades =
-            {
-                {80, 73, 64},
-                {50, 48, 89},
-                {23, 62, 78},
-                {89, 42, 53}
-            };
-            int choice = 1;
-            while (choice != 4)
-            {
-                Console.WriteLine("Choose an option:");
-                Console.WriteLine("1 - Add a student");
-                Console.WriteLine("2 - Enter grades for a student");
-                Console.WriteLine("3 - View all stuent grades");
-                Console.WriteLine("4 - Quit");
+                Console.WriteLine("Enter choice\n 1. Add student\n 2.Enter grades of students\n 3.View all student grades\n 4.Quit");
+                Console.WriteLine("-------------------------------------------------------------");
+                choice = Convert.ToInt32(Console.ReadLine());
+                bool studentfound = false;
+
                 if (choice == 1)
                 {
-                    Console.WriteLine("What is the student's name?");
-                    string name = Console.ReadLine();
-                    Console.WriteLine("What is the student's ID?");
-                    int ID = Convert.ToInt32(Console.ReadLine());
-                    Console.WriteLine("What is the students's form group?");
-                    string form = Console.ReadLine();
-                    studentCount = studentCount + 1;
-                    if (MAX_STUDENTS < studentCount)
-                    {
-                        Console.WriteLine("Error - Maximum students breached");
-                    }
+                    Console.WriteLine("What is the students name?");
+                    students[studentCount].name = Console.ReadLine();
+                    Console.WriteLine("What is the students ID?");
+                    students[studentCount].ID = Console.ReadLine();
+                    Console.WriteLine("What is the students form?");
+                    students[studentCount].form = Console.ReadLine();
+                    studentCount ++;
+                    
                 }
                 else if (choice == 2)
                 {
+                    Console.WriteLine("What is the students ID?");
+                    for (int i = 0; i < studentCount; i++)
+                    {
+                        if (students[i].ID == Console.ReadLine())
+                        {
+                            studentfound = true;
+                            for (int j = 0; j < maxSubjects; j++)
+                            {
+                                Console.WriteLine($"What did {students[i]} get in {subjects[j]}?");
+                                grades[i, j] = Convert.ToInt32(Console.ReadLine());
+                            }
+                        }
+                    }
                 }
                 else if (choice == 3)
                 {
+
                 }
                 else if (choice == 4)
                 {
+                    keepgoing = false;
+                    Console.WriteLine("Bye");
                 }
                 else
                 {
-                    Console.WriteLine("Invalid choice. Please try again.");
+                    Console.WriteLine("Enter a valid response.");
                 }
-            }
+
+
+            } 
         }
     }
 }
